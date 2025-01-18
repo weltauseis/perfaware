@@ -1,0 +1,46 @@
+Language:        Cpp
+BasedOnStyle:    LLVM
+IndentWidth:     4
+UseTab:          Never
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+  AfterControlStatement: true
+  BeforeElse: true
+
+AllowShortFunctionsOnASingleLine: None
+ColumnLimit:     0
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpacesInAngles:  false
+SpaceAfterCStyleCast: false
+SpaceBeforeCpp11BracedList: false
+Cpp11BracedListStyle: true
+IndentCaseLabels: true
+AlignAfterOpenBracket: BlockIndent
+AlignOperands:   false
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeTernaryOperators: true
+BinPackArguments: false
+BinPackParameters: false
+ContinuationIndentWidth: 4
+AlignEscapedNewlines: Left
+AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+PointerAlignment: Left
+IndentPPDirectives: None
+IncludeCategories:
+  - Regex:           '^<.*\.h>'
+    Priority:        1
+  - Regex:           '^<'
+    Priority:        2
+  - Regex:           '^".*\.h"'
+    Priority:        3
+  - Regex:           '^"'
+    Priority:        4
