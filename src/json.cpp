@@ -295,18 +295,18 @@ JsonNode* json_find_node(JsonNode* root, std::string name)
         return root;
     }
 
+    if (root->child)
+    {
+        auto node = json_find_node(root->child, name);
+        if (node)
+            return node;
+    }
+    
     if (root->sibling)
     {
         auto node = json_find_node(root->sibling, name);
         if (node)
             return node;
-    }
-
-    if(root->child)
-    {
-        auto node = json_find_node(root->child, name);
-        if (node)
-            return node;   
     }
 
     return nullptr;

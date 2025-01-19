@@ -51,7 +51,7 @@ void run(bool clusters, int nb)
     std::string bin_filename = std::string("output_") + std::to_string(coords.size() / 4) + "_" + mode_suffix + ".bin";
 
     std::ofstream json_output(json_filename);
-    std::ofstream bin_output(bin_filename);
+    std::ofstream bin_output(bin_filename, std::ios::binary);
 
     json_output << "{\"pairs\":[\n";
     for (int i = 0; i < coords.size() / 4; i++)

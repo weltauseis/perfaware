@@ -8,7 +8,12 @@ watch: "current"
 
 breakpoint:
 {
-  location: ("src/json.cpp":291)
+  location: ("src/main.cpp":85)
+}
+
+breakpoint:
+{
+  location: ("src/main.cpp":27)
 }
 
 /// targets ///////////////////////////////////////////////////////////////////
@@ -25,17 +30,21 @@ target:
 {
   executable: "build/processor.exe"
   working_directory: "../perfaware"
-  arguments: ".\\test\\object.json"
+  arguments: ".\\build\\output_1000000_cluster.json .\\build\\output_1000000_cluster.bin"
 }
 
 /// recent_files //////////////////////////////////////////////////////////////
 
 recent_file: "src/generator/main.cpp"
 recent_file: "D:/a/_work/1/s/src/vctools/crt/vcstartup/src/startup/exe_common.inl"
-recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/xmemory"
-recent_file: "src/main.cpp"
 recent_file: "src/json.cpp"
+recent_file: "src/common.cpp"
+recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/__msvc_string_view.hpp"
+recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/utility"
 recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/xstring"
+recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/xmemory"
+recent_file: "D:/a/_work/1/s/src/vctools/crt/vcstartup/src/heap/new_scalar.cpp"
+recent_file: "src/main.cpp"
 
 /// exception code filters ////////////////////////////////////////////////////
 
