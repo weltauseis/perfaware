@@ -78,12 +78,13 @@ int main(int argc, char* argv[])
     }
 
     f64 average = compute_average(pairs);
-    printf("Average : %f\n", average);
+    printf("Average   : %f\n", average);
 
     if (argc == 3)
     {
         f64 reference_average = compute_reference_average(argv[2]);
         printf("Reference : %f\n", reference_average);
+        printf("Diff.     : %f\n", average - reference_average);
     }
 
     return 0;
