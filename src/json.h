@@ -33,3 +33,4 @@ struct JsonNode {
 JsonNode* json_parse(std::string source);
 void json_free(JsonNode* root);
 void json_pretty_print(JsonNode* root);
+JsonNode* json_find_node(JsonNode* root, std::string name);

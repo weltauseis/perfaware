@@ -25,19 +25,19 @@ struct JsonParser {
         }
     }
 
-
-    std::string scan_string() {
+    std::string scan_string()
+    {
         // skip the opening quote
         current += 1;
 
         u32 count = 0;
-        while(source[current + count] != '"')
+        while (source[current + count] != '"')
         {
             count++;
         }
-        
+
         auto str = source.substr(current, count);
-        
+
         current += count;
         current += 1;
 
@@ -64,7 +64,7 @@ struct JsonParser {
                 if (is_digit_char(c))
                 {
                     result = parse_number();
-               }
+                }
             }
         }
 
@@ -91,20 +91,24 @@ struct JsonParser {
                 array_node->child = current_item;
             }
 
-            if(previous_item != nullptr) // true for subsequent items
+            if (previous_item != nullptr) // true for subsequent items
             {
                 previous_item->sibling = current_item;
             }
 
             skip_whitespace();
-            if(source[current] == ']') continue;
-            
-            if(source[current] != ',') {
+            if (source[current] == ']')
+                continue;
+
+            if (source[current] != ',')
+            {
                 printf("WARNING : MISSING COMMA SEPARATOR IN ARRAY");
-            } else {
+            }
+            else
+            {
                 current += 1;
             }
-            
+
             previous_item = current_item;
         }
 
@@ -129,13 +133,16 @@ struct JsonParser {
             skip_whitespace();
             std::string key = scan_string();
             skip_whitespace();
-            if(source[current] != ':') {
+            if (source[current] != ':')
+            {
                 printf("WARNING : NO COLON BETWEEN KEY/VALUE IN OBJECT");
-            } else {
+            }
+            else
+            {
                 current++;
             }
             skip_whitespace();
-            
+
             JsonNode* current_item = parse_any();
             current_item->label = key;
 
@@ -144,20 +151,24 @@ struct JsonParser {
                 object_node->child = current_item;
             }
 
-            if(previous_item != nullptr) // true for subsequent items
+            if (previous_item != nullptr) // true for subsequent items
             {
                 previous_item->sibling = current_item;
             }
 
             skip_whitespace();
-            if(source[current] == '}') continue;
-            
-            if(source[current] != ',') {
+            if (source[current] == '}')
+                continue;
+
+            if (source[current] != ',')
+            {
                 printf("WARNING : MISSING COMMA SEPARATOR IN ARRAY");
-            } else {
+            }
+            else
+            {
                 current += 1;
             }
-            
+
             previous_item = current_item;
         }
 
@@ -206,7 +217,8 @@ void json_free(JsonNode* root)
     return;
 }
 
-void print_indent(u32 depth) {
+void print_indent(u32 depth)
+{
     for (int d = 0; d < depth; d++)
     {
         printf("\t");
@@ -225,7 +237,7 @@ void json_print_recursive(JsonNode* root, u32 depth)
     while (node != nullptr)
     {
         print_indent(depth);
-        
+
         // print the label for objects members
         if (!node->label.empty())
         {
@@ -274,4 +286,28 @@ void json_print_recursive(JsonNode* root, u32 depth)
 void json_pretty_print(JsonNode* root)
 {
     json_print_recursive(root, 0);
+}
+
+JsonNode* json_find_node(JsonNode* root, std::string name)
+{
+    if (root->label == name)
+    {
+        return root;
+    }
+
+    if (root->sibling)
+    {
+        auto node = json_find_node(root->sibling, name);
+        if (node)
+            return node;
+    }
+
+    if(root->child)
+    {
+        auto node = json_find_node(root->child, name);
+        if (node)
+            return node;   
+    }
+
+    return nullptr;
 }

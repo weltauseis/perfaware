@@ -8,12 +8,7 @@ watch: "current"
 
 breakpoint:
 {
-  location: ("src/json.cpp":201)
-}
-
-breakpoint:
-{
-  location: ("src/json.cpp":47)
+  location: ("src/json.cpp":291)
 }
 
 /// targets ///////////////////////////////////////////////////////////////////
@@ -30,7 +25,7 @@ target:
 {
   executable: "build/processor.exe"
   working_directory: "../perfaware"
-  arguments: ".\\build\\output_1_unif.json"
+  arguments: ".\\test\\object.json"
 }
 
 /// recent_files //////////////////////////////////////////////////////////////
@@ -39,8 +34,8 @@ recent_file: "src/generator/main.cpp"
 recent_file: "D:/a/_work/1/s/src/vctools/crt/vcstartup/src/startup/exe_common.inl"
 recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/xmemory"
 recent_file: "src/main.cpp"
-recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/xstring"
 recent_file: "src/json.cpp"
+recent_file: "../../../../Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.42.34433/include/xstring"
 
 /// exception code filters ////////////////////////////////////////////////////
 
