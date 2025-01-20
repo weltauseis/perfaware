@@ -1,10 +1,10 @@
-#include <immintrin.h>
-#include <exception>
+#include <cstdio>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include "common.h"
 #include "json.h"
+#include "profiler.h"
 
 f64 compute_average(JsonNode* pairs)
 {
@@ -27,10 +27,8 @@ f64 compute_average(JsonNode* pairs)
     return sum / (f64)count;
 }
 
-f64 compute_reference_average(char* reference_file_path)
+f64 compute_reference_average(std::ifstream& reference_file)
 {
-    std::ifstream reference_file(reference_file_path, std::ios::binary);
-
     reference_file.seekg(0, std::ios::end);
     u32 size = (u32)reference_file.tellg();
     u32 count = size / sizeof(f64);
@@ -50,6 +48,7 @@ f64 compute_reference_average(char* reference_file_path)
 
 int main(int argc, char* argv[])
 {
+        
     if (argc < 2)
     {
         return 1;
@@ -82,10 +81,21 @@ int main(int argc, char* argv[])
 
     if (argc == 3)
     {
-        f64 reference_average = compute_reference_average(argv[2]);
+        std::ifstream reference_file(argv[2], std::ios::binary);
+        if(!reference_file)
+        {
+            printf("Couldn't read reference file.\n");
+            return 1;
+        }
+        f64 reference_average = compute_reference_average(reference_file);
         printf("Reference : %f\n", reference_average);
         printf("Diff.     : %f\n", average - reference_average);
     }
+
+    // for(u64 m = 1000; m >= 10; m /= 2)
+    // {
+    //     printf("CPU Freq : %llu (Estimated in %llu millis.)\n", estimate_cpu_freq(m), m);
+    // }
 
     return 0;
 }
