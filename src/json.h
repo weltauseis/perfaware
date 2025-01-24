@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "better_types.h"
 
 /*
@@ -30,7 +31,7 @@ struct JsonNode {
     bool data_bool;
 };
 
-JsonNode* json_parse(std::string source);
+JsonNode* json_parse(std::vector<u8> source);
 void json_free(JsonNode* root);
 void json_pretty_print(JsonNode* root);
 JsonNode* json_find_node(JsonNode* root, std::string name);

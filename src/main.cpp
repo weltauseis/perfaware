@@ -58,17 +58,19 @@ int main(int argc, char* argv[])
     // it is kinda ridiculous to use two different templated
     // classes just for reading a
     // file into a string... c++...
-    std::ifstream input_file(argv[1]);
+    std::ifstream input_file(argv[1], std::ios::binary | std::ios::ate);
     if (!input_file)
     {
         printf("Couldn't read input file.\n");
         return 1;
     }
-    std::stringstream buffer;
-    buffer << input_file.rdbuf();
+    u64 input_size = (u64) input_file.tellg();
+    input_file.seekg(0, std::ios::beg);
+    std::vector<u8> buffer(input_size);
+    input_file.read((char *)buffer.data(), input_size);
     u64 time_read = read_cpu_timer();
 
-    JsonNode* data = json_parse(buffer.str());
+    JsonNode* data = json_parse(buffer);
     // json_pretty_print(data);
 
     u64 time_parse = read_cpu_timer();

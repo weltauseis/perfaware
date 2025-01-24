@@ -10,7 +10,7 @@ bool is_digit_char(char c)
 
 // parser class
 struct JsonParser {
-    std::string source;
+    std::vector<u8> source;
     u32 current = 0;
 
     void skip_whitespace()
@@ -36,7 +36,7 @@ struct JsonParser {
             count++;
         }
 
-        auto str = source.substr(current, count);
+        auto str = std::string(source.begin() + current, source.begin() + current + count);
 
         current += count;
         current += 1;
@@ -180,21 +180,23 @@ struct JsonParser {
 
     JsonNode* parse_number()
     {
-        u32 start = current;
+        u32 count = 0;
 
         // natural part
-        while (is_digit_char(source[current]))
-            current += 1;
+        while (is_digit_char(source[current + count]))
+            count += 1;
 
         // eventual decimal part
-        if (source[current] == '.')
+        if (source[current + count] == '.')
         {
-            current += 1;
-            while (is_digit_char(source[current]))
-                current += 1;
+            count += 1;
+            while (is_digit_char(source[current + count]))
+                count += 1;
         }
 
-        f64 number = std::atof(source.substr(start, current - start).c_str());
+        f64 number;
+        std::from_chars((char*) source.data() + current, (char*) source.data() + current + count, number);
+        current += count;
 
         return new JsonNode{
             .type = JsonType::NUMBER,
@@ -203,7 +205,7 @@ struct JsonParser {
     }
 };
 
-JsonNode* json_parse(std::string source) // copy here, should be fine
+JsonNode* json_parse(std::vector<u8> source) // copy here, should be fine
 {
     JsonParser parser = JsonParser{
         .source = std::move(source),
