@@ -1,6 +1,6 @@
 #include "json.h"
+#include <charconv>
 #include <cstdio>
-#include <cstdlib>
 
 // utilities
 bool is_digit_char(char c)
@@ -102,7 +102,7 @@ struct JsonParser {
 
             if (source[current] != ',')
             {
-                printf("WARNING : MISSING COMMA SEPARATOR IN ARRAY");
+                printf("WARNING : MISSING COMMA SEPARATOR IN ARRAY\n");
             }
             else
             {
@@ -135,7 +135,7 @@ struct JsonParser {
             skip_whitespace();
             if (source[current] != ':')
             {
-                printf("WARNING : NO COLON BETWEEN KEY/VALUE IN OBJECT");
+                printf("WARNING : NO COLON BETWEEN KEY/VALUE IN OBJECT\n");
             }
             else
             {
@@ -162,7 +162,7 @@ struct JsonParser {
 
             if (source[current] != ',')
             {
-                printf("WARNING : MISSING COMMA SEPARATOR IN ARRAY");
+                printf("WARNING : MISSING COMMA SEPARATOR IN OBJECT\n");
             }
             else
             {

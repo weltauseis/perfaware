@@ -61,3 +61,13 @@ u64 estimate_cpu_freq(u64 millis)
     u64 freq = (cpu_elapsed * 1000) / millis;
     return freq;
 }
+
+f64 rdtsc_to_seconds(u64 t, u64 freq)
+{
+    return (f64) t / (f64) freq;
+}
+
+f64 rdtsc_to_milliseconds(u64 t, u64 freq)
+{
+    return (f64) t / (f64) freq * 1000.;
+}

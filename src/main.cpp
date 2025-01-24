@@ -48,7 +48,8 @@ f64 compute_reference_average(std::ifstream& reference_file)
 
 int main(int argc, char* argv[])
 {
-        
+    u64 time_start = read_cpu_timer();
+
     if (argc < 2)
     {
         return 1;
@@ -65,9 +66,12 @@ int main(int argc, char* argv[])
     }
     std::stringstream buffer;
     buffer << input_file.rdbuf();
+    u64 time_read = read_cpu_timer();
 
     JsonNode* data = json_parse(buffer.str());
     // json_pretty_print(data);
+
+    u64 time_parse = read_cpu_timer();
 
     JsonNode* pairs = json_find_node(data, std::string("pairs"));
     if (!pairs)
@@ -76,13 +80,18 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    u64 time_misc = read_cpu_timer();
+
     f64 average = compute_average(pairs);
     printf("Average   : %f\n", average);
 
+    u64 time_computation = read_cpu_timer();
+
+    u64 time_check = 0;
     if (argc == 3)
     {
         std::ifstream reference_file(argv[2], std::ios::binary);
-        if(!reference_file)
+        if (!reference_file)
         {
             printf("Couldn't read reference file.\n");
             return 1;
@@ -90,12 +99,24 @@ int main(int argc, char* argv[])
         f64 reference_average = compute_reference_average(reference_file);
         printf("Reference : %f\n", reference_average);
         printf("Diff.     : %f\n", average - reference_average);
+        time_check = read_cpu_timer();
     }
 
     // for(u64 m = 1000; m >= 10; m /= 2)
     // {
     //     printf("CPU Freq : %llu (Estimated in %llu millis.)\n", estimate_cpu_freq(m), m);
     // }
+
+    u64 time_total = read_cpu_timer() - time_start;
+    u64 cpu_freq = estimate_cpu_freq(100);
+    printf("\nTotal : %.2f s (CPU Freq : %llu)\n", rdtsc_to_seconds(time_total, cpu_freq), cpu_freq);
+    printf("-----------------\n");
+    printf("\tRead : %.2f ms (%.2f%%)\n", rdtsc_to_milliseconds(time_read - time_start, cpu_freq), ((f64)(time_read - time_start) / (f64)time_total) * 100.);
+    printf("\tParse : %.2f ms (%.2f%%)\n", rdtsc_to_milliseconds(time_parse - time_read, cpu_freq), ((f64)(time_parse - time_read) / (f64)time_total) * 100.);
+    printf("\tMisc : %.2f ms (%.2f%%)\n", rdtsc_to_milliseconds(time_misc - time_parse, cpu_freq), ((f64)(time_misc - time_parse) / (f64)time_total) * 100.);
+    printf("\tComputation : %.2f ms (%.2f%%)\n", rdtsc_to_milliseconds(time_computation - time_misc, cpu_freq), ((f64)(time_computation - time_misc) / (f64)time_total) * 100.);
+    if (time_check != 0)
+        printf("\tChecking : %.2f ms (%.2f%%)\n", rdtsc_to_milliseconds(time_check - time_computation, cpu_freq), ((f64)(time_check - time_computation) / (f64)time_total) * 100.);
 
     return 0;
 }
